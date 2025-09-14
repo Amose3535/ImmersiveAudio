@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuyxhktbpud5n"]
+
+[ext_resource type="Script" uid="uid://cwt28m7shsqvd" path="res://addons/ImmersiveAudio/scripts/nodes/ImmersiveAudioPlayer3D.gd" id="1_6po55"]
+
+[node name="ImmersiveAudioPlayer3d" type="AudioStreamPlayer3D"]
+script = ExtResource("1_6po55")
+metadata/_custom_type_script = "uid://cwt28m7shsqvd"

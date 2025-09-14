@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvhx0cvk67sxb"]
+
+[ext_resource type="Script" uid="uid://bxrr181vxjt2n" path="res://addons/ImmersiveAudio/scripts/nodes/AcousticMaterialComponent.gd" id="1_mux88"]
+
+[node name="WallMaterial" type="Node"]
+script = ExtResource("1_mux88")
+metadata/_custom_type_script = "uid://bxrr181vxjt2n"
