@@ -9,7 +9,7 @@ class_name SpatialAudioPlayer3D extends AudioStreamPlayer3D
 
 var _raycast_array : Array[RayCast3D] = []
 var _distance_array : Array[float] = [0,0,0,0,0,0,0,0,0,0]
-var _last_udpate_time : float = 0.0
+var _last_update_time : float = 0.0
 var _update_distances : bool = true
 var _current_raycast_index : int = 0
 
@@ -118,9 +118,9 @@ func _lerp_parameters(delta):
 
 func _physics_process(delta: float) -> void:
 	# Optimization
-	_last_udpate_time += delta
+	_last_update_time += delta
 	
-	# Should we update the raycast distance values
+	# Update raycasts one frame at a time to prevent lag spikes
 	if _update_distances:
 		_on_update_raycast(_raycast_array[_current_raycast_index], _current_raycast_index)
 		_current_raycast_index+=1
@@ -129,12 +129,12 @@ func _physics_process(delta: float) -> void:
 			_update_distances = false
 	
 	# Check if we should update the spatial sound values
-	if _last_udpate_time > update_frequency_seconds:
+	if _last_update_time > update_frequency_seconds:
 		var player_camera = get_viewport().get_camera_3d() # This might change over time (OBVIOUSLY not multiplayer friendly)
 		if player_camera != null:
 			_on_update_spatial_audio(player_camera)
 		_update_distances = true
-		_last_udpate_time -= update_frequency_seconds # Don't set to 0 because if the frame didn't land exactly on update frequency value it might cause shorter and/or inconsistent update intervals over time
+		_last_update_time -= update_frequency_seconds # Don't set to 0 because if the frame didn't land exactly on update frequency value it might cause shorter and/or inconsistent update intervals over time
 	
 	# Smooth transition of parameters
 	_lerp_parameters(delta)

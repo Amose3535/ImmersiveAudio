@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://djmimfcaq6hhr"]
+
+[ext_resource type="PackedScene" uid="uid://cgqnel3cvcegs" path="res://addons/ImmersiveAudio/example/ExamplePlayer.tscn" id="1_hj4yo"]
+[ext_resource type="Texture2D" uid="uid://dvfy468jsjh25" path="res://addons/ImmersiveAudio/resources/assets/textures/kenney_prototype-textures/PNG/Light/texture_08.png" id="2_iynbi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ouwvv"]
+albedo_color = Color(0.966918, 0.966968, 0.942932, 1)
+albedo_texture = ExtResource("2_iynbi")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_dptky"]
+material = SubResource("StandardMaterial3D_ouwvv")
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e2r04"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_deksx"]
+
+[sub_resource type="Sky" id="Sky_hj4yo"]
+sky_material = SubResource("ProceduralSkyMaterial_deksx")
+
+[sub_resource type="Environment" id="Environment_ur6gr"]
+background_mode = 2
+background_energy_multiplier = 1.1
+sky = SubResource("Sky_hj4yo")
+ambient_light_color = Color(0.956863, 0.929412, 0.917647, 1)
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 3.33
+glow_strength = 1.4
+glow_bloom = 0.01
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_deksx"]
+auto_exposure_enabled = true
+auto_exposure_scale = 0.5
+auto_exposure_speed = 1.5
+dof_blur_far_enabled = true
+dof_blur_far_distance = 90.0
+dof_blur_far_transition = 20.0
+dof_blur_near_enabled = true
+dof_blur_near_distance = 0.5
+dof_blur_near_transition = 0.2
+dof_blur_amount = 0.07
+
+[node name="ExampleScene1" type="Node3D"]
+
+[node name="ExamplePlayer" parent="." instance=ExtResource("1_hj4yo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_dptky")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_e2r04")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ur6gr")
+camera_attributes = SubResource("CameraAttributesPractical_deksx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.604696, 0.796456, 0, -0.796456, 0.604696, 0, 2.96376, 0)

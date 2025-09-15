@@ -4,4 +4,5 @@
 
 [node name="WallMaterial" type="Node"]
 script = ExtResource("1_mux88")
+reflectivity = 0.87
 metadata/_custom_type_script = "uid://bxrr181vxjt2n"

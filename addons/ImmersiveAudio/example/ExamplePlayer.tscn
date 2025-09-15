@@ -1,0 +1,70 @@
+[gd_scene load_steps=11 format=3 uid="uid://cgqnel3cvcegs"]
+
+[ext_resource type="Script" uid="uid://xemnp2yrbfrm" path="res://addons/ImmersiveAudio/example/example_player.gd" id="1_td4nt"]
+[ext_resource type="Script" uid="uid://bwwrfxbomkpiu" path="res://addons/ImmersiveAudio/scripts/nodes/ImmersiveAudioListener3D.gd" id="2_bux3x"]
+[ext_resource type="Script" uid="uid://cwt28m7shsqvd" path="res://addons/ImmersiveAudio/scripts/nodes/ImmersiveAudioPlayer3D.gd" id="3_edabt"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_balcf"]
+radius = 0.4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_td4nt"]
+radius = 0.4
+
+[sub_resource type="Animation" id="Animation_edabt"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_4667q"]
+resource_name = "walk"
+
+[sub_resource type="Animation" id="Animation_qd0m1"]
+resource_name = "run"
+
+[sub_resource type="Animation" id="Animation_sd6y7"]
+resource_name = "interact"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4667q"]
+_data = {
+&"idle": SubResource("Animation_edabt"),
+&"interact": SubResource("Animation_sd6y7"),
+&"run": SubResource("Animation_qd0m1"),
+&"walk": SubResource("Animation_4667q")
+}
+
+[node name="ExamplePlayer" type="CharacterBody3D"]
+script = ExtResource("1_td4nt")
+interact_distance = 5.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_balcf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_td4nt")
+
+[node name="Head" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+
+[node name="ImmersiveListener3D" type="AudioListener3D" parent="Head"]
+script = ExtResource("2_bux3x")
+metadata/_custom_type_script = "uid://bwwrfxbomkpiu"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_4667q")
+}
+
+[node name="Walk" type="AudioStreamPlayer3D" parent="."]
+script = ExtResource("3_edabt")
+max_ray_length = 15.0
+metadata/_custom_type_script = "uid://cwt28m7shsqvd"
+
+[node name="Jump" type="AudioStreamPlayer3D" parent="."]
+script = ExtResource("3_edabt")
+max_ray_length = 15.0
+metadata/_custom_type_script = "uid://cwt28m7shsqvd"
+
+[node name="Interact" type="AudioStreamPlayer3D" parent="."]
+script = ExtResource("3_edabt")
+max_ray_length = 15.0
+metadata/_custom_type_script = "uid://cwt28m7shsqvd"

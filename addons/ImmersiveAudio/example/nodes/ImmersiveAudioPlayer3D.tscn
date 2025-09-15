@@ -1,7 +1,100 @@
-[gd_scene load_steps=2 format=3 uid="uid://cuyxhktbpud5n"]
+[gd_scene load_steps=11 format=3 uid="uid://cuyxhktbpud5n"]
 
 [ext_resource type="Script" uid="uid://cwt28m7shsqvd" path="res://addons/ImmersiveAudio/scripts/nodes/ImmersiveAudioPlayer3D.gd" id="1_6po55"]
+[ext_resource type="Script" uid="uid://cveh4ye1rlckr" path="res://addons/ImmersiveAudio/example/nodes/pivot.gd" id="2_pt0d6"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_6po55"]
+
+[sub_resource type="Environment" id="Environment_rwpgm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pt0d6"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+albedo_color = Color(1, 1, 1, 0.313726)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pt0d6"]
+lightmap_size_hint = Vector2i(17, 17)
+material = SubResource("StandardMaterial3D_pt0d6")
+add_uv2 = true
+size = Vector2(3, 3)
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nl125"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+albedo_color = Color(1, 1, 1, 0.313726)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_nl125"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("StandardMaterial3D_nl125")
+size = Vector2(3, 3)
+orientation = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gxguy"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+albedo_color = Color(1, 1, 1, 0.313726)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gxguy"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("StandardMaterial3D_gxguy")
+size = Vector2(3, 3)
 
 [node name="ImmersiveAudioPlayer3d" type="AudioStreamPlayer3D"]
 script = ExtResource("1_6po55")
+max_rays = 9
+max_ray_length = 30.0
 metadata/_custom_type_script = "uid://cwt28m7shsqvd"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_6po55")
+
+[node name="pivot" type="Marker3D" parent="."]
+transform = Transform3D(0.815885, 0, -0.578214, 0, 1, 0, 0.578214, 0, 0.815885, 0, 0, 0)
+script = ExtResource("2_pt0d6")
+
+[node name="Camera3D" type="Camera3D" parent="pivot"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 15, 15)
+fov = 65.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rwpgm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="ReferenceFrame" type="Node3D" parent="."]
+
+[node name="up" type="RayCast3D" parent="ReferenceFrame"]
+target_position = Vector3(0, 5, 0)
+debug_shape_custom_color = Color(0.513726, 1, 0.247059, 1)
+debug_shape_thickness = 5
+
+[node name="forward" type="RayCast3D" parent="ReferenceFrame"]
+target_position = Vector3(0, 0, 5)
+debug_shape_custom_color = Color(0.372549, 0.745098, 1, 1)
+debug_shape_thickness = 5
+
+[node name="left" type="RayCast3D" parent="ReferenceFrame"]
+target_position = Vector3(5, 0, 0)
+debug_shape_custom_color = Color(0.85098, 0, 0.262745, 1)
+debug_shape_thickness = 5
+
+[node name="xy" type="MeshInstance3D" parent="ReferenceFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, 0)
+mesh = SubResource("PlaneMesh_pt0d6")
+skeleton = NodePath("../..")
+
+[node name="xy2" type="MeshInstance3D" parent="ReferenceFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.5)
+mesh = SubResource("PlaneMesh_nl125")
+skeleton = NodePath("../..")
+
+[node name="xy3" type="MeshInstance3D" parent="ReferenceFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1.5)
+mesh = SubResource("PlaneMesh_gxguy")
+skeleton = NodePath("../..")
